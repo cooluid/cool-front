@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # front
 
 ## Project setup
@@ -22,3 +23,7 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+# cool-front
+this is very cool
+>>>>>>> f13c1e0f2d9f8987d8d2edca158d9014ea02988d
