@@ -2,17 +2,22 @@
 	<div id="app">
 		<div class="layui-container">
 			<form class="layui-form layui-form-pane" action="">
-				<div class="layui-form-item" :class="{'form-group--error':$v.name.$error}">
+				<div class="layui-form-item">
 					<label class="layui-form-label">用户名</label>
 					<div class="layui-input-inline">
-						<input type="text" name="title" v-model.trim="name" @input="setName($event.target.value)" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+						<validation-provider name="用户名" rules="required|minmax:6,10" v-slot="{errors}">
+							<input type="text" name="title" v-model="name" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+							<span class="error">{{errors[0]}}</span>
+						</validation-provider>
 					</div>
-					<div class="error layui-form-mid" v-if="!$v.name.required">请输入正确的用户名</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">密码</label>
-					<div class="layui-input-block">
-						<input type="password" name="title" v-model="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+					<div class="layui-input-inline">
+						<validation-provider name="密码" rules="required|minmax:6,20" v-slot="{errors}">
+							<input type="password" name="title" v-model="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+							<span class="error">{{errors[0]}}</span>
+						</validation-provider>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -30,7 +35,20 @@
 </template>
 <script>
 	import axios from 'axios'
-	import {required, minLength} from 'vuelidate/lib/validators'
+	import {ValidationProvider, extend} from 'vee-validate'
+	import {required} from 'vee-validate/dist/rules'
+
+	extend('required', {
+		...required,
+		message: '{_field_}不能为空'
+	})
+	extend('minmax', {
+		validate(value, {min, max}) {
+			return value.length >= min && value.length <= max
+		},
+		params: ['min', 'max'],
+		message: '{_field_}长度最小为{min}，最大为{max}'
+	})
 
 	export default {
 		name: 'app',
@@ -65,17 +83,10 @@
 				if (!this.code) {
 					this.errorMsg.push(`验证码不得为空`)
 				}
-			},
-			setName(value) {
-				this.name = value
-				this.$v.name.$touch()
 			}
 		},
-		validations: {
-			name: {
-				required,
-				minLength: minLength(4)
-			}
+		components: {
+			ValidationProvider
 		}
 	}
 </script>
@@ -106,13 +117,6 @@
 	}
 	
 	.error {
-		display: none;
-	}
-	
-	.form-group--error {
-		.error {
-			display: block;
-			color: rosybrown;
-		}
+		color: red;
 	}
 </style>
