@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # front
 
 ## Project setup
