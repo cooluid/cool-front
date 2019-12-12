@@ -56,7 +56,7 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">邮箱</label>
 									<div class="layui-input-inline">
-										<input type="text" placeholder="请输入邮箱" v-validate="'required|email'" name="email" lay-verify="required" autocomplete="off" class="layui-input">
+										<input type="text" v-model="username" placeholder="请输入邮箱" v-validate="'required|email'" name="email" lay-verify="required" autocomplete="off" class="layui-input">
 									</div>
 									<div class="layui-form-mid" style="color: red">{{errors.first('email')}}</div>
 								</div>
@@ -71,7 +71,7 @@
 									</div>
 								</div>
 								<div class="layui-form-item">
-									<button class="layui-btn" alert="1" lay-filter="*" lay-submit>提交</button>
+									<button class="layui-btn" type="button" alert="1" lay-filter="*" lay-submit @click="submit">提交</button>
 								</div>
 							</form>
 						</div>
@@ -79,18 +79,17 @@
 				</div>
 			</div>
 		</div>
-	
-	
 	</div>
 </template>
 
 <script>
-	import {getCode} from "../api/login";
+	import {getCode, forget} from "../api/login";
 
 	export default {
 		name: "Forget",
 		data() {
 			return {
+				username: '',
 				code: '',
 				svg: ''
 			}
@@ -104,6 +103,16 @@
 					if (res.code !== 200) return;
 					this.svg = res.data;
 				});
+			},
+			submit() {
+				forget({
+					username: this.username,
+					code: this.code
+				}).then((res) => {
+					console.log(res)
+					if (res.code !== 200) return;
+					alert(`邮件发送成功`)
+				})
 			}
 		}
 	}
