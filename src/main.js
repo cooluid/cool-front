@@ -7,6 +7,7 @@ import axios from 'axios'
 import './local/index'
 
 Vue.config.productionTip = false
+Vue.config.devtools = true
 Vue.use(VeeValidate)
 
 const vaildator = new Validator()
