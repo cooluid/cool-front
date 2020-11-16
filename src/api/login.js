@@ -1,24 +1,11 @@
-import axios from "@/utils/axios";
+import axios from "@/utils/request";
 
 const getCode = () => {
-  return axios.get("/getCaptcha");
+	return axios.get("/getCaptcha");
 };
 
-const forget = async (option) => {
-  let result = "";
-  try {
-    result = await axios.post("/forget", {
-      ...option,
-    });
-    if (result.status === 200) {
-      return result.data;
-    } else {
-      console.log(`获取数据失败`);
-    }
-  } catch (e) {
-    console.log(`发送错误的数据${e}`);
-  }
-  return result;
+const forget = (option) => {
+	return axios.post("/forget", { ...option });
 };
 
 export { getCode, forget };
