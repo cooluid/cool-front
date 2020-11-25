@@ -8,10 +8,7 @@ class HttpRequest {
 
 	getInsideConfig() {
 		const config = {
-			baseURL:
-				process.env.NODE_ENV === "development"
-					? config.baseUrl
-					: config.baseUrl.pro,
+			baseURL: this.baseUrl,
 			headers: {
 				"Content-Type": "application/json;charset=utf8",
 			},
@@ -42,7 +39,6 @@ class HttpRequest {
 				}
 			},
 			(err) => {
-				debugger;
 				errorHandle(err);
 			}
 		);
