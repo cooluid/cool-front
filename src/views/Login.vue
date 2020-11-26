@@ -145,7 +145,8 @@ export default {
 	},
 	methods: {
 		getCaptcha() {
-			getCode().then((res) => {
+			let sid = this.$store.state.sid;
+			getCode(sid).then((res) => {
 				if (res.code !== 200) return;
 				this.svg = res.data;
 			});
