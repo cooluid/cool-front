@@ -8,4 +8,8 @@ const forget = (option) => {
 	return axios.post("/forget", { ...option });
 };
 
-export { getCode, forget };
+const login = (loginInfo) => {
+	return axios.post("/login", { ...loginInfo });
+};
+
+export { getCode, forget, login };

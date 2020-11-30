@@ -18,73 +18,80 @@
 					<div class="layui-tab-item layui-show">
 						<div class="layui-form layui-form-pane">
 							<form method="post">
-								<div class="layui-form-item">
-									<label class="layui-form-label">用户名</label>
-									<div class="layui-input-inline">
-										<input
-											type="text"
-											name="username"
-											v-validate="'required|email'"
-											placeholder="请输入用户名"
-											v-model="userName"
-											lay-verify="required"
-											autocomplete="off"
-											class="layui-input"
-										/>
-									</div>
-									<div class="layui-form-mid">
-										<span style="color: #c00;">{{
-											errors.first("username")
-										}}</span>
-									</div>
-								</div>
-								<div class="layui-form-item">
-									<label class="layui-form-label">密码</label>
-									<div class="layui-input-inline">
-										<input
-											type="password"
-											name="password"
-											v-validate="'required|min:6'"
-											placeholder="请输入密码"
-											v-model="password"
-											lay-verify="required"
-											autocomplete="off"
-											class="layui-input"
-										/>
-									</div>
-									<div class="layui-form-mid">
-										<span style="color: #c00;">{{
-											errors.first("password")
-										}}</span>
-									</div>
-								</div>
-								<div class="layui-form-item">
-									<div class="layui-row">
-										<label class="layui-form-label">验证码</label>
+								<validation-provider name="email" rules="required|email" v-slot="{ errors }">
+									<div class="layui-form-item">
+										<label class="layui-form-label">用户名</label>
 										<div class="layui-input-inline">
 											<input
 												type="text"
-												name="code"
-												v-validate="'required|length:4'"
-												v-model="code"
+												name="username"
+												placeholder="请输入用户名"
+												v-model="userName"
 												lay-verify="required"
-												placeholder="请输入验证码"
 												autocomplete="off"
 												class="layui-input"
 											/>
 										</div>
-										<div>
-											<span class="svg" v-html="svg" @click="getCaptcha" />
-										</div>
 										<div class="layui-form-mid">
-											<span style="color: #c00;">{{
-												errors.first("code")
-											}}</span>
+											<span style="color: #c00;">{{ errors[0] }}</span>
 										</div>
 									</div>
+								</validation-provider>
+								<validation-provider name="password" rules="required|min:6" v-slot="{ errors }">
+									<div class="layui-form-item">
+										<label class="layui-form-label">密码</label>
+										<div class="layui-input-inline">
+											<input
+												type="password"
+												name="password"
+												placeholder="请输入密码"
+												v-model="password"
+												lay-verify="required"
+												autocomplete="off"
+												class="layui-input"
+											/>
+										</div>
+										<div class="layui-form-mid">
+											<span style="color: #c00;">{{ errors[0] }}</span>
+										</div>
+									</div>
+								</validation-provider>
+								<div class="layui-form-item">
+									<validation-provider
+										rules="required|length:4"
+										v-slot="{ errors }"
+										name="code"
+									>
+										<div class="layui-row">
+											<label class="layui-form-label">验证码</label>
+											<div class="layui-input-inline">
+												<input
+													type="text"
+													name="code"
+													v-model="code"
+													lay-verify="required"
+													placeholder="请输入验证码"
+													autocomplete="off"
+													class="layui-input"
+												/>
+											</div>
+											<div>
+												<span class="svg" v-html="svg" @click="getCaptcha" />
+											</div>
+											<div class="layui-form-mid">
+												<span style="color: #c00;">{{ errors[0] }}</span>
+											</div>
+										</div>
+									</validation-provider>
 								</div>
 								<div class="layui-form-item">
-									<button class="layui-btn" lay-filter="*" lay-submit>
+									<button
+										class="layui-btn"
+										lay-filter="*"
+										lay-submit
+										type="button"
+										@click="submit()"
+									>
 										立即登录
 									</button>
 									<span style="padding-left:20px;">
@@ -118,11 +125,15 @@
 </template>
 
 <script>
-import { getCode } from "../api/login";
+import { getCode, login } from "../api/login";
 import uuid from "uuid/dist/v4";
+import { ValidationProvider } from "vee-validate";
 
 export default {
 	name: "Login",
+	components: {
+		ValidationProvider,
+	},
 	data() {
 		return {
 			userName: "",
@@ -149,6 +160,19 @@ export default {
 			getCode(sid).then((res) => {
 				if (res.code !== 200) return;
 				this.svg = res.data;
+			});
+		},
+		submit() {
+			console.log(this.submit);
+			login({
+				username: this.userName,
+				password: this.password,
+				code: this.code,
+				sid: this.$store.state.sid,
+			}).then((res) => {
+				if (res.code == 200) {
+					console.log(`请求成功：` + res);
+				}
 			});
 		},
 	},
