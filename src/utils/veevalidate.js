@@ -21,14 +21,15 @@ localize("zh_CN", {
 	names: {
 		email: "邮箱",
 		password: "密码",
-		name: "昵称",
+		nick: "昵称",
 		username: "账号",
 		code: "验证码",
+		repass: "二次确认密码",
 	},
 	fields: {
 		email: {
-			email:'请输入正确的{_field_}',
-			required:'请输入{_field_}!!!'
-		}
-	}
+			email: "请输入正确的{_field_}",
+			required: "请输入{_field_}!!!",
+		},
+	},
 });
