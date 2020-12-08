@@ -3,11 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "@/utils/veevalidate";
+import Alert from "./components/modules/alert";
 
 Vue.config.productionTip = false;
-Vue.config.devtools = true;
+Vue.use(Alert);
 
-new Vue({	
+new Vue({
 	router,
 	store,
 	render: (h) => h(App),

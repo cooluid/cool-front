@@ -155,6 +155,7 @@ export default {
 		};
 	},
 	mounted() {
+		window.vue = this;
 		let sid = localStorage.getItem("sid");
 		if (!sid) {
 			sid = uuid();
