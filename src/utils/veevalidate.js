@@ -21,7 +21,7 @@ localize("zh_CN", {
 	names: {
 		email: "邮箱",
 		password: "密码",
-		nick: "昵称",
+		name: "昵称",
 		username: "账号",
 		code: "验证码",
 		repass: "二次确认密码",
