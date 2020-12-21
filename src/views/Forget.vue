@@ -160,7 +160,7 @@ export default {
 				username: this.username,
 				code: this.code,
 			}).then((res) => {
-				console.log(res);
+				// console.log(res);
 				if (res.code !== 200) return;
 				alert(`邮件发送成功`);
 			});

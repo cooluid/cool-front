@@ -162,7 +162,7 @@ export default {
 			localStorage.setItem("sid", sid);
 		}
 		this.$store.commit("setSid", sid);
-		console.log(sid);
+		// console.log(sid);
 
 		this.getCaptcha();
 	},

@@ -15,6 +15,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 export default {
 	props: {
 		type: {
@@ -32,13 +33,13 @@ export default {
 		success: {
 			type: Function,
 			default: () => {
-				console.log("点击了success");
+				// console.log("点击了success");
 			},
 		},
 		cancel: {
 			type: Function,
 			default: () => {
-				console.log("点击了cancel");
+				// console.log("点击了cancel");
 			},
 		},
 	},
