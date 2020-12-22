@@ -11,8 +11,12 @@
 					<li><a href="">公告</a></li>
 					<li><a href="">动态</a></li>
 					<li class="layui-hide-xs"><span class="line"></span></li>
-					<li class="layui-hide-xs layui-hide-sm"><a href="">我发表的帖子</a></li>
-					<li class="layui-hide-xs layui-hide-sm"><a href="">我收藏的帖子</a></li>
+					<li class="layui-hide-xs layui-hide-sm">
+						<a href="">我发表的帖子</a>
+					</li>
+					<li class="layui-hide-xs layui-hide-sm">
+						<a href="">我收藏的帖子</a>
+					</li>
 				</ul>
 				<div class="right layui-hide-xs">
 					<span class="layui-icon layui-icon-search"></span>
@@ -71,6 +75,11 @@ ul {
 	top: 0;
 	.layui-icon-search {
 		margin-right: 10px;
+		font-size: 20px;
+		&:hover {
+			color: #5fb878;
+			cursor: pointer;
+		}
 	}
 }
 </style>
