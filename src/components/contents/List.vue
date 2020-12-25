@@ -35,13 +35,14 @@
 			</span>
 		</div>
 		<div>
-			<list-item></list-item>
+			<list-item :lists="lists" @nextpage="nextPage()"></list-item>
 		</div>
 	</div>
 </template>
 
 <script>
 import ListItem from "./ListItem.vue";
+import { getList } from "@/api/content";
 export default {
 	name: "list",
 	data() {
@@ -49,12 +50,37 @@ export default {
 			status: "",
 			tag: "",
 			sort: "created",
+			page: 0,
+			limit: 20,
+			catalog: "",
+			lists: [],
 		};
 	},
 	components: {
 		ListItem,
 	},
+	mounted() {
+		this._getLists();
+	},
 	methods: {
+		_getLists() {
+			let options = {
+				catalog: this.catalog,
+				isTop: 0,
+				page: this.page,
+				limit: this.limit,
+				sort: this.sort,
+				tag: this.tag,
+				status: this.status,
+			};
+			getList(options).then((res) => {
+				console.log("🚀 ~ file: List.vue ~ line 77 ~ getList ~ res", res);
+			});
+		},
+		nextPage() {
+			this.page++;
+			this._getLists();
+		},
 		search(val) {
 			switch (val) {
 				case 0:
