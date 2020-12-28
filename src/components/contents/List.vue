@@ -35,7 +35,11 @@
 			</span>
 		</div>
 		<div>
-			<list-item :lists="lists" @nextpage="nextPage()"></list-item>
+			<list-item
+				:isEnd="isEnd"
+				:lists="lists"
+				@nextpage="nextPage()"
+			></list-item>
 		</div>
 	</div>
 </template>
@@ -47,6 +51,8 @@ export default {
 	name: "list",
 	data() {
 		return {
+			isEnd: false,
+			isRepeat: false,
 			status: "",
 			tag: "",
 			sort: "created",
@@ -64,6 +70,9 @@ export default {
 	},
 	methods: {
 		_getLists() {
+			if (this.isRepeat) return;
+			if (this.isEnd) return;
+			this.isRepeat = true;
 			let options = {
 				catalog: this.catalog,
 				isTop: 0,
@@ -73,9 +82,27 @@ export default {
 				tag: this.tag,
 				status: this.status,
 			};
-			getList(options).then((res) => {
-				console.log("🚀 ~ file: List.vue ~ line 77 ~ getList ~ res", res);
-			});
+			getList(options)
+				.then((res) => {
+					this.isRepeat = false;
+					if (res.code === 200) {
+						if (res.data.length < this.limit) {
+							this.isEnd = true;
+						}
+						if (this.lists.length === 0) {
+							this.lists = res.data;
+						} else {
+							this.lists = this.lists.concat(res.data);
+						}
+					}
+					console.log("🚀 ~ file: List.vue ~ line 77 ~ getList ~ res", res);
+				})
+				.catch((err) => {
+					this.isRepeat = false;
+					if (err) {
+						this.$alert(err.msg);
+					}
+				});
 		},
 		nextPage() {
 			this.page++;

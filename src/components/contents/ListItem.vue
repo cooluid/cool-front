@@ -48,9 +48,12 @@
 				</div>
 			</li>
 		</ul>
-		<div style="text-align: center">
-			<div class="laypage-main">
+		<div style="text-align: center" v-show="isShow">
+			<div class="laypage-main" v-if="!isEnd">
 				<a @click.prevent="more()" class="laypage-next">更多求解</a>
+			</div>
+			<div class="nomore gray" v-else>
+				没有更多了
 			</div>
 		</div>
 	</div>
@@ -60,7 +63,20 @@
 import _ from "lodash";
 export default {
 	name: "listitem",
-	props: ["lists"],
+	props: {
+		lists: {
+			default: () => [],
+			type: Array,
+		},
+		isShow: {
+			default: true,
+			type: Boolean,
+		},
+		isEnd: {
+			default: false,
+			type: Boolean,
+		},
+	},
 	computed: {
 		items() {
 			_.map(this.lists, (item) => {
