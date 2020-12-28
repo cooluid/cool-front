@@ -60,6 +60,7 @@ export default {
 			limit: 20,
 			catalog: "",
 			lists: [],
+			current: "",
 		};
 	},
 	components: {
@@ -68,10 +69,31 @@ export default {
 	mounted() {
 		this._getLists();
 	},
+	watch: {
+		current() {
+			this.init();
+		},
+		$route() {
+			this.init(true);
+		},
+	},
 	methods: {
+		init(catalog = false) {
+			if (catalog) {
+				let d = this.$route.params["catalog"];
+				if (typeof d !== "undefined" && d !== "") {
+					this.catalog = d;
+				}
+			}
+			this.page = 0;
+			this.lists = [];
+			this.isEnd = false;
+			this._getLists();
+		},
 		_getLists() {
 			if (this.isRepeat) return;
 			if (this.isEnd) return;
+
 			this.isRepeat = true;
 			let options = {
 				catalog: this.catalog,
@@ -95,7 +117,6 @@ export default {
 							this.lists = this.lists.concat(res.data);
 						}
 					}
-					console.log("🚀 ~ file: List.vue ~ line 77 ~ getList ~ res", res);
 				})
 				.catch((err) => {
 					this.isRepeat = false;
@@ -109,6 +130,11 @@ export default {
 			this._getLists();
 		},
 		search(val) {
+			if (typeof val === "undefined" && this.current === "") {
+				return;
+			}
+			this.current = val;
+			console.log(val);
 			switch (val) {
 				case 0:
 					(this.status = "0"), (this.tag = "");
@@ -128,6 +154,7 @@ export default {
 					break;
 				default:
 					(this.status = ""), (this.tag = "");
+					this.current = "";
 			}
 		},
 	},
