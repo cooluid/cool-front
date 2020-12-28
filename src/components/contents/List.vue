@@ -100,7 +100,7 @@ export default {
 				.catch((err) => {
 					this.isRepeat = false;
 					if (err) {
-						this.$alert(err.msg);
+						this.$alert(err.message);
 					}
 				});
 		},
