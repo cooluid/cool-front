@@ -23,7 +23,7 @@ export default {
 @import "assets/layui/css/modules/layer/default/layer.css";
 //公用样式
 .svg {
-	position: relative;
+	// position: relative;
 	top: -4px;
 }
 .gray {

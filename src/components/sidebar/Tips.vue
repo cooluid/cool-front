@@ -27,7 +27,6 @@ export default {
 	mounted() {
 		getTips()
 			.then((res) => {
-				console.log("🚀 ~ file: Tips.vue ~ line 29 ~ getTips ~ res", res);
 				if (res.code === 200) {
 					this.lists = res.data;
 				}

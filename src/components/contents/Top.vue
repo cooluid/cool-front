@@ -20,6 +20,7 @@
 import ListItem from "./ListItem.vue";
 export default {
 	name: "top",
+
 	components: {
 		ListItem,
 	},

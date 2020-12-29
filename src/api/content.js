@@ -1,8 +1,8 @@
 import axios from "@/utils/request";
-import qs from "qs";
+// import qs from "qs";
 
 const getList = (options) => {
-	return axios.get("/public/list?", qs.stringify(options));
+	return axios.get("/public/list?", { params: options });
 };
 
 const getTips = () => {
@@ -14,7 +14,7 @@ const getLinks = () => {
 };
 
 const getTop = () => {
-	return axios.get("/public/toWeek");
+	return axios.get("/public/topWeek");
 };
 
 export { getList, getTips, getLinks, getTop };
