@@ -1,0 +1,51 @@
+{
+  "id": "2301001",
+  "name": "cool",
+  "font_family": "cooliconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "13370032",
+      "name": "3other2",
+      "font_class": "other",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "1176983",
+      "name": "setting",
+      "font_class": "setting",
+      "unicode": "e736",
+      "unicode_decimal": 59190
+    },
+    {
+      "icon_id": "7089322",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "431804",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e722",
+      "unicode_decimal": 59170
+    },
+    {
+      "icon_id": "5912855",
+      "name": "document",
+      "font_class": "document",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "7239512",
+      "name": "message",
+      "font_class": "message",
+      "unicode": "e6fd",
+      "unicode_decimal": 59133
+    }
+  ]
+}
