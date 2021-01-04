@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
+import store from "@/store/index";
 
 const Login = () =>
 	import(/* webpackChunkName: 'login' */ "../views/Login.vue");
@@ -129,6 +130,28 @@ const routes = [
 				],
 			},
 		],
+		beforeEnter: (to, from, next) => {
+			const isLogin = store.state.isLogin;
+			if (isLogin) {
+				next();
+			} else {
+				const userInfo = localStorage.getItem("userInfo");
+				const token = localStorage.getItem("token");
+				if (
+					userInfo != "" &&
+					userInfo != null &&
+					token != "" &&
+					token != null
+				) {
+					store.commit("setIsLogin", true);
+					store.commit("setUserInfo", JSON.parse(userInfo));
+					store.commit("setToken", token);
+					next();
+				} else {
+					next("/login");
+				}
+			}
+		},
 	},
 ];
 
