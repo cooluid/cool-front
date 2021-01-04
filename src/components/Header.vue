@@ -72,7 +72,7 @@
 							:class="{ 'layui-show': isHover }"
 						>
 							<dd>
-								<router-link :to="{ name: 'settings' }"
+								<router-link :to="{ name: 'info' }"
 									><i class="layui-icon">&#xe620;</i>基本设置</router-link
 								>
 							</dd>
