@@ -41,6 +41,14 @@ const Accounts = () =>
 	import(
 		/* webpackChunkName: 'accounts' */ "../components/user/common/Accounts.vue"
 	);
+const MyPost = () =>
+	import(
+		/* webpackChunkName: 'my-post' */ "../components/user/common/MyPost.vue"
+	);
+const MyCollection = () =>
+	import(
+		/* webpackChunkName: 'my-collection' */ "../components/user/common/MyCollection.vue"
+	);
 
 Vue.use(VueRouter);
 
@@ -84,7 +92,15 @@ const routes = [
 			{ path: "", name: "center", component: UserCenter },
 			{ path: "msg", name: "msg", component: UserMsg },
 			{ path: "others", name: "others", component: Others },
-			{ path: "posts", name: "posts", component: UserPost },
+			{
+				path: "posts",
+				name: "posts",
+				component: UserPost,
+				children: [
+					{ path: "", name: "mypost", component: MyPost },
+					{ path: "collection", name: "collection", component: MyCollection },
+				],
+			},
 			{
 				path: "settings",
 				name: "settings",

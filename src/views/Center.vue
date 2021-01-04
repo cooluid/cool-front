@@ -30,7 +30,12 @@ export default {
 					link: "info",
 					activeClass: "layui-this",
 				},
-				{ name: "我的帖子", icon: "layui-icon-file-b", link: "posts" },
+				{
+					name: "我的帖子",
+					icon: "layui-icon-file-b",
+					link: "mypost",
+					activeClass: "layui-this",
+				},
 				{ name: "我的消息", icon: "layui-icon-reply-fill", link: "msg" },
 				{ name: "其他设置", icon: "layui-icon-engine", link: "others" },
 			],
