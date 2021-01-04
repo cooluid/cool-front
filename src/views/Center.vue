@@ -6,7 +6,7 @@
 				v-for="(item, index) in lists"
 				:key="'nav' + index"
 			>
-				<router-link :to="{ name: item.link }"
+				<router-link :to="{ name: item.link }" :active-class="item.activeClass"
 					><i class="layui-icon" :class="item.icon"></i
 					>{{ item.name }}</router-link
 				>
@@ -24,7 +24,12 @@ export default {
 			lists: [
 				{ name: "我的主页", icon: "layui-icon-home", link: "home" },
 				{ name: "用户中心", icon: "layui-icon-friends", link: "center" },
-				{ name: "基本设置", icon: "layui-icon-set-fill", link: "settings" },
+				{
+					name: "基本设置",
+					icon: "layui-icon-set-fill",
+					link: "info",
+					activeClass: "layui-this",
+				},
 				{ name: "我的帖子", icon: "layui-icon-file-b", link: "posts" },
 				{ name: "我的消息", icon: "layui-icon-reply-fill", link: "msg" },
 				{ name: "其他设置", icon: "layui-icon-engine", link: "others" },

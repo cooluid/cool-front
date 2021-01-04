@@ -25,6 +25,22 @@ const Settings = () =>
 	import(/* webpackChunkName: 'settings' */ "../components/user/Settings.vue");
 const MyHome = () =>
 	import(/* webpackChunkName: 'my-home' */ "../views/User.vue");
+const MyInfo = () =>
+	import(
+		/* webpackChunkName: 'my-info' */ "../components/user/common/MyInfo.vue"
+	);
+const PicUpload = () =>
+	import(
+		/* webpackChunkName: 'pic-upload' */ "../components/user/common/PicUpload.vue"
+	);
+const Passwd = () =>
+	import(
+		/* webpackChunkName: 'passwd' */ "../components/user/common/Passwd.vue"
+	);
+const Accounts = () =>
+	import(
+		/* webpackChunkName: 'accounts' */ "../components/user/common/Accounts.vue"
+	);
 
 Vue.use(VueRouter);
 
@@ -66,10 +82,36 @@ const routes = [
 		linkActiveClass: "layui-this",
 		children: [
 			{ path: "", name: "center", component: UserCenter },
-			{ path: "/msg", name: "msg", component: UserMsg },
-			{ path: "/others", name: "others", component: Others },
-			{ path: "/posts", name: "posts", component: UserPost },
-			{ path: "/settings", name: "settings", component: Settings },
+			{ path: "msg", name: "msg", component: UserMsg },
+			{ path: "others", name: "others", component: Others },
+			{ path: "posts", name: "posts", component: UserPost },
+			{
+				path: "settings",
+				name: "settings",
+				component: Settings,
+				children: [
+					{
+						path: "",
+						name: "info",
+						component: MyInfo,
+					},
+					{
+						path: "pic",
+						name: "pic",
+						component: PicUpload,
+					},
+					{
+						path: "passwd",
+						name: "passwd",
+						component: Passwd,
+					},
+					{
+						path: "account",
+						name: "account",
+						component: Accounts,
+					},
+				],
+			},
 		],
 	},
 ];
