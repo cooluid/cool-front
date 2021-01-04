@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import store from "@/store/index";
+import moment from "dayjs";
+import jwt from "jsonwebtoken";
 
 const Login = () =>
 	import(/* webpackChunkName: 'login' */ "../views/Login.vue");
@@ -95,7 +97,6 @@ const routes = [
 			{ path: "others", name: "others", component: Others },
 			{
 				path: "posts",
-				name: "posts",
 				component: UserPost,
 				children: [
 					{ path: "", name: "mypost", component: MyPost },
@@ -104,7 +105,6 @@ const routes = [
 			},
 			{
 				path: "settings",
-				name: "settings",
 				component: Settings,
 				children: [
 					{
@@ -142,12 +142,18 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 	const userInfo = localStorage.getItem("userInfo");
 	const token = localStorage.getItem("token");
+	const payload = jwt.decode(token);
 
 	if (userInfo != "" && userInfo != null && token != "" && token != null) {
-		store.commit("setIsLogin", true);
-		store.commit("setUserInfo", JSON.parse(userInfo));
-		store.commit("setToken", token);
+		if (moment().isBefore(payload.exp * 1000)) {
+			store.commit("setIsLogin", true);
+			store.commit("setUserInfo", JSON.parse(userInfo));
+			store.commit("setToken", token);
+		} else {
+			localStorage.clear();
+		}
 	}
+
 	if (to.matched.some((record) => record.meta.requiresAuth)) {
 		const isLogin = store.state.isLogin;
 		if (isLogin) {
