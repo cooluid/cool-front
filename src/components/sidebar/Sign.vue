@@ -11,7 +11,11 @@
 				>说明</a
 			>
 			<i class="fly-mid"></i>
-			<a href="javascript:;" class="fly-link" id="LAY_signinTop"
+			<a
+				href="javascript:;"
+				class="fly-link"
+				id="LAY_signinTop"
+				@click="showActive()"
 				>活跃榜<span class="layui-badge-dot"></span
 			></a>
 			<span class="fly-signin-days">已连续签到<cite>16</cite>天</span>
@@ -29,63 +33,103 @@
           -->
 		</div>
 		<div class="modal" v-show="isShow">
-			<div class="mask" @click="close()">
-				<div class="layui-layer layui-layer-page" :class="{ active: isShow }">
-					<div class="layui-layer-title">
-						签到说明
-						<i
-							class="layui-icon layui-icon-close pull-right"
-							@click="close()"
-						></i>
-					</div>
-					<div class="layui-layer-content">
-						<div class="layui-text">
-							<blockquote class="layui-elem-quote">
-								"签到"可获得的社区积分规则如下
-							</blockquote>
-							<table class="layui-table">
-								<thead>
-									<tr>
-										<th>连续签到天数</th>
-										<th>每天可得积分</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>&lt;5</td>
-										<td>5</td>
-									</tr>
-									<tr>
-										<td>&ge;5</td>
-										<td>10</td>
-									</tr>
-									<tr>
-										<td>&ge;15</td>
-										<td>15</td>
-									</tr>
-									<tr>
-										<td>&ge;30</td>
-										<td>20</td>
-									</tr>
-									<tr>
-										<td>&ge;100</td>
-										<td>30</td>
-									</tr>
-									<tr>
-										<td>&ge;365</td>
-										<td>50</td>
-									</tr>
-								</tbody>
-							</table>
-							<div>
-								<p>中间若有中断，则连续签到天数重新计算</p>
-								<p class="orange">不可利用程序签到，否则积分清零</p>
-							</div>
+			<div class="mask" @click="close()"></div>
+			<div class="layui-layer layui-layer-page" :class="{ active: isShow }">
+				<div class="layui-layer-title">
+					签到说明
+					<i
+						class="layui-icon layui-icon-close pull-right"
+						@click="close()"
+					></i>
+				</div>
+				<div class="layui-layer-content">
+					<div class="layui-text">
+						<blockquote class="layui-elem-quote">
+							"签到"可获得的社区积分规则如下
+						</blockquote>
+						<table class="layui-table">
+							<thead>
+								<tr>
+									<th>连续签到天数</th>
+									<th>每天可得积分</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>&lt;5</td>
+									<td>5</td>
+								</tr>
+								<tr>
+									<td>&ge;5</td>
+									<td>10</td>
+								</tr>
+								<tr>
+									<td>&ge;15</td>
+									<td>15</td>
+								</tr>
+								<tr>
+									<td>&ge;30</td>
+									<td>20</td>
+								</tr>
+								<tr>
+									<td>&ge;100</td>
+									<td>30</td>
+								</tr>
+								<tr>
+									<td>&ge;365</td>
+									<td>50</td>
+								</tr>
+							</tbody>
+						</table>
+						<div>
+							<p>中间若有中断，则连续签到天数重新计算</p>
+							<p class="orange">不可利用程序签到，否则积分清零</p>
 						</div>
 					</div>
 				</div>
 			</div>
-			说明
+		</div>
+		<div class="modal" v-show="showList">
+			<div class="mask" @click="close()"></div>
+			<div class="layui-layer layui-layer-page" :class="{ active: showList }">
+				<div class="layui-layer-title">
+					签到活跃榜 - TOP20
+					<i
+						class="layui-icon layui-icon-close pull-right"
+						@click="close()"
+					></i>
+				</div>
+				<div class="layui-layer-content pd0">
+					<div class="layui-tab layui-tab-brief">
+						<ul class="layui-tab-title">
+							<li :class="{ 'layui-this': current == 0 }" @click="choose(0)">
+								最新签到
+							</li>
+							<li :class="{ 'layui-this': current == 1 }" @click="choose(1)">
+								今日最快
+							</li>
+							<li :class="{ 'layui-this': current == 2 }" @click="choose(2)">
+								总签到榜
+							</li>
+						</ul>
+						<div class="layui-tab-content">
+							<ul class="layui-tab-item layui-show">
+								<li v-for="(item, index) in lists" :key="'sign' + index">
+									<img src="/img/beer.png" alt="" class="mr1" />
+									<cite class="fly-link">{{ item.name }}</cite>
+									<span class="fly-grey" v-if="current !== 2"
+										>签到于{{ item.created }}</span
+									>
+									<span class="fly-grey" v-else
+										>已经连续签到<i class="orange">{{ item.count }}</i
+										>天</span
+									>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -96,15 +140,46 @@ export default {
 	data() {
 		return {
 			isShow: false,
+			showList: false,
+			current: 0,
+			lists: [
+				{
+					name: "test1",
+					count: 73,
+					created: "2021-1-10 00:00:00",
+				},
+				{
+					name: "test2",
+					count: 17,
+					created: "2021-1-10 00:00:00",
+				},
+				{
+					name: "test3",
+					count: 27,
+					created: "2021-1-10 00:00:00",
+				},
+				{
+					name: "test4",
+					count: 37,
+					created: "2021-1-10 00:00:00",
+				},
+			],
 		};
 	},
 	methods: {
 		showInfo() {
 			this.isShow = true;
-			console.log(this.isShow);
+		},
+		showActive() {
+			this.showList = true;
+			console.log(this.showList);
+		},
+		choose(flag) {
+			this.current = flag;
 		},
 		close() {
 			this.isShow = false;
+			this.showList = false;
 		},
 	},
 };
@@ -131,6 +206,7 @@ export default {
 	height: 100%;
 }
 .layui-layer {
+	z-index: 21000;
 	position: fixed;
 	width: 300px;
 	height: 480px;
@@ -139,7 +215,6 @@ export default {
 	margin-top: -240px;
 	margin-left: -150px;
 	background: #fff;
-	z-index: 21000;
 	&.active {
 		animation-fill-mode: both;
 		animation-duration: 0.2s;
@@ -154,6 +229,23 @@ export default {
 	}
 	.layui-layer-content {
 		padding: 20px;
+	}
+}
+.layui-tab-content {
+	padding: 0 10px;
+}
+.layui-tab-item {
+	line-height: 45px;
+	li {
+		border-bottom: 1px dotted #dcdcdc;
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+	img {
+		width: 30px;
+		height: 30px;
+		border-radius: 2px;
 	}
 }
 </style>

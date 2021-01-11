@@ -19,6 +19,20 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/css/global.css";
+@for $i from 0 to 5 {
+	.pd#{$i} {
+		padding: $i * 10 + px !important;
+	}
+	.pl#{$i} {
+		padding-left: $i * 10 + px !important;
+	}
+	.pr#{$i} {
+		padding-right: $i * 10 + px !important;
+	}
+	.mr#{$i} {
+		margin-right: $i * 10 + px !important;
+	}
+}
 //公用样式
 .svg {
 	// position: relative;
