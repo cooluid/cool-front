@@ -134,7 +134,6 @@ export default {
 				return;
 			}
 			this.current = val;
-			console.log(val);
 			switch (val) {
 				case 0:
 					(this.status = "0"), (this.tag = "");
