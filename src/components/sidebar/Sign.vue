@@ -18,19 +18,33 @@
 				@click="showActive()"
 				>活跃榜<span class="layui-badge-dot"></span
 			></a>
-			<span class="fly-signin-days">已连续签到<cite>16</cite>天</span>
+			<span class="fly-signin-days"
+				>已连续签到<cite>{{ count }}</cite
+				>天</span
+			>
 		</div>
 		<div class="fly-panel-main fly-signin-main">
-			<button class="layui-btn layui-btn-danger" id="LAY_signin">
-				今日签到
-			</button>
-			<span>可获得<cite>5</cite>飞吻</span>
-
-			<!-- 已签到状态 -->
-			<!--
-          <button class="layui-btn layui-btn-disabled">今日已签到</button>
-          <span>获得了<cite>20</cite>飞吻</span>
-          -->
+			<template v-if="!isSign">
+				<button
+					class="layui-btn layui-btn-danger"
+					id="LAY_signin"
+					@click="sign()"
+				>
+					今日签到
+				</button>
+				<span
+					>可获得<cite>{{ fav }}</cite
+					>飞吻</span
+				>
+			</template>
+			<template v-else>
+				<!-- 已签到状态 -->
+				<button class="layui-btn layui-btn-disabled">今日已签到</button>
+				<span
+					>获得了<cite>{{ fav }}</cite
+					>飞吻</span
+				>
+			</template>
 		</div>
 		<sign-info @closeModal="close()" :isShow="isShow"></sign-info>
 		<sign-list @closeModal="close()" :isShow="showList"></sign-list>
@@ -40,13 +54,41 @@
 <script>
 import SignInfo from "./SignInfo.vue";
 import SignList from "./SignList.vue";
+import { userSign } from "@/api/userSign";
 export default {
 	name: "sign",
 	data() {
 		return {
 			isShow: false,
 			showList: false,
+			isSign: this.$store.state.userInfo
+				? this.$store.state.userInfo.isSign
+				: false,
 		};
+	},
+	computed: {
+		count() {
+			return this.$store.state.userInfo ? this.$store.state.userInfo.count : 0;
+		},
+		fav() {
+			let fav = 0;
+			const cnt = this.$store.state.userInfo.count;
+
+			if (cnt < 5) {
+				fav = 5;
+			} else if (cnt >= 5 && cnt < 15) {
+				fav = 10;
+			} else if (cnt >= 15 && cnt < 30) {
+				fav = 15;
+			} else if (cnt >= 30 && cnt < 100) {
+				fav = 20;
+			} else if (cnt >= 100 && cnt < 365) {
+				fav = 30;
+			} else if (cnt >= 365) {
+				fav = 50;
+			}
+			return fav;
+		},
 	},
 	components: {
 		SignList,
@@ -62,6 +104,23 @@ export default {
 		close() {
 			this.isShow = false;
 			this.showList = false;
+		},
+		sign() {
+			if (!this.$store.state.isLogin) {
+				return;
+			}
+			userSign().then((res) => {
+				if (res.code === 200) {
+					this.isSign = true;
+					user.isSign = true;
+					let user = this.$store.state.userInfo;
+					user.favs = res.favs;
+					user.count = res.count;
+					this.$store.commit("setUserInfo", user);
+				} else {
+					this.$alert("你已经签到");
+				}
+			});
 		},
 	},
 };
