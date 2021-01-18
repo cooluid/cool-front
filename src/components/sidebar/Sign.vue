@@ -55,16 +55,28 @@
 import SignInfo from "./SignInfo.vue";
 import SignList from "./SignList.vue";
 import { userSign } from "@/api/userSign";
+import moment from "dayjs";
 export default {
 	name: "sign",
 	data() {
 		return {
 			isShow: false,
 			showList: false,
-			isSign: this.$store.state.userInfo
-				? this.$store.state.userInfo.isSign
-				: false,
+			isSign: false,
 		};
+	},
+	mounted() {
+		const user = this.$store.state.userInfo;
+		const isSign = user ? user.isSign : false;
+		const lastSign = user ? user.lastSign : 0;
+		const nowDate = moment().format("YYYY-MM-DD");
+		const lastDate = moment(lastSign).format("YYYY-MM-DD");
+		const diff = moment(nowDate).diff(moment(lastDate), "day");
+		if (diff > 0 && isSign) {
+			this.isSign = false;
+		} else {
+			this.isSign = isSign;
+		}
 	},
 	computed: {
 		count() {
@@ -113,17 +125,18 @@ export default {
 				return;
 			}
 			userSign().then((res) => {
+				let user = this.$store.state.userInfo;
 				if (res.code === 200) {
-					this.isSign = true;
-					let user = this.$store.state.userInfo;
-					user.isSign = true;
 					user.favs = res.favs;
 					user.count = res.count;
-					this.$store.commit("setUserInfo", user);
 					this.$pop("", "签到成功");
 				} else {
 					this.$pop("", "您已经签到");
 				}
+				this.isSign = true;
+				user.isSign = true;
+				user.lastSign = res.lastSign;
+				this.$store.commit("setUserInfo", user);
 			});
 		},
 	},
