@@ -72,7 +72,9 @@ export default {
 		},
 		fav() {
 			let fav = 0;
-			const cnt = this.$store.state.userInfo.count;
+			const cnt = this.$store.state.userInfo
+				? this.$store.state.userInfo.count
+				: 0;
 
 			if (cnt < 5) {
 				fav = 5;
@@ -107,18 +109,20 @@ export default {
 		},
 		sign() {
 			if (!this.$store.state.isLogin) {
+				this.$pop("shake", "请先登录");
 				return;
 			}
 			userSign().then((res) => {
 				if (res.code === 200) {
 					this.isSign = true;
-					user.isSign = true;
 					let user = this.$store.state.userInfo;
+					user.isSign = true;
 					user.favs = res.favs;
 					user.count = res.count;
 					this.$store.commit("setUserInfo", user);
+					this.$pop("", "签到成功");
 				} else {
-					this.$alert("你已经签到");
+					this.$pop("", "您已经签到");
 				}
 			});
 		},
