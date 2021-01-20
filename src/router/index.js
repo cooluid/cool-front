@@ -52,6 +52,10 @@ const MyCollection = () =>
 	import(
 		/* webpackChunkName: 'my-collection' */ "../components/user/common/MyCollection.vue"
 	);
+const NoFound = () =>
+	import(
+		/* webpackChunkName: 'no-found' */ "../views/NoFound.vue"
+	);
 
 Vue.use(VueRouter);
 
@@ -131,6 +135,14 @@ const routes = [
 			},
 		],
 		meta: { requiresAuth: true },
+	},
+	{
+		path: "/404",
+		component: NoFound,
+	},
+	{
+		path: "*",
+		redirect: "/404",
 	},
 ];
 

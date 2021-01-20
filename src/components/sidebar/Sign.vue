@@ -18,13 +18,13 @@
 				@click="showActive()"
 				>活跃榜<span class="layui-badge-dot"></span
 			></a>
-			<span class="fly-signin-days"
+			<span class="fly-signin-days" v-show="isSign && isLogin"
 				>已连续签到<cite>{{ count }}</cite
 				>天</span
 			>
 		</div>
 		<div class="fly-panel-main fly-signin-main">
-			<template v-if="!isSign">
+			<template v-if="!isLogin">
 				<button
 					class="layui-btn layui-btn-danger"
 					id="LAY_signin"
@@ -39,7 +39,9 @@
 			</template>
 			<template v-else>
 				<!-- 已签到状态 -->
-				<button class="layui-btn layui-btn-disabled">今日已签到</button>
+				<button class="layui-btn layui-btn-disabled">
+					今日已签到
+				</button>
 				<span
 					>获得了<cite>{{ fav }}</cite
 					>飞吻</span
@@ -79,6 +81,9 @@ export default {
 		}
 	},
 	computed: {
+		isLogin() {
+			return this.$store.state.isLogin;
+		},
 		count() {
 			return this.$store.state.userInfo ? this.$store.state.userInfo.count : 0;
 		},
@@ -120,7 +125,7 @@ export default {
 			this.showList = false;
 		},
 		sign() {
-			if (!this.$store.state.isLogin) {
+			if (!this.isLogin) {
 				this.$pop("shake", "请先登录");
 				return;
 			}
