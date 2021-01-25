@@ -38,9 +38,37 @@
 					/>
 				</div>
 				<div class="layui-inline">
-					<div class="layui-input-inline">
-						<input type="radio" name="sex" value="0" checked title="男" />
-						<input type="radio" name="sex" value="1" title="女" />
+					<div class="layui-input-inline custom1">
+						<label for="gender1" class="custom2">
+							<input
+								id="gender1"
+								type="radio"
+								name="sex"
+								value="0"
+								title="男"
+								v-model="gender"
+							/>
+							<i
+								class="layui-icon layui-icon-circle"
+								:class="{ 'layui-icon-radio': gender === '0' }"
+							></i>
+							男
+						</label>
+						<label for="gender2">
+							<input
+								id="gender2"
+								type="radio"
+								name="sex"
+								value="1"
+								title="女"
+								v-model="gender"
+							/>
+							<i
+								class="layui-icon layui-icon-circle"
+								:class="{ 'layui-icon-radio': gender === '1' }"
+							></i>
+							女
+						</label>
 					</div>
 				</div>
 			</div>
@@ -82,7 +110,23 @@
 <script>
 export default {
 	name: "my-info",
+	data() {
+		return {
+			gender: "",
+		};
+	},
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.custom1 {
+	margin-top: 8px;
+	color: #333;
+}
+.custom2 {
+	margin-right: 10px;
+}
+.layui-icon-radio {
+	color: #5fb878;
+}
+</style>
