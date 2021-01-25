@@ -32,6 +32,12 @@ export default {
 	.mr#{$i} {
 		margin-right: $i * 10 + px !important;
 	}
+	.ml#{$i} {
+		margin-left: $i * 10 + px !important;
+	}
+	.mt#{$i} {
+		margin-top: $i * 10 + px !important;
+	}
 }
 //公用样式
 .svg {

@@ -56,7 +56,7 @@
 <script>
 import SignInfo from "./SignInfo.vue";
 import SignList from "./SignList.vue";
-import { userSign } from "@/api/userSign";
+import { userSign } from "@/api/user";
 import moment from "dayjs";
 export default {
 	name: "sign",

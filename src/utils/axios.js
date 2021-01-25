@@ -1,5 +1,7 @@
 import axios from "axios";
 import errorHandle from "./errorHandle";
+import store from "@/store";
+import publicConfig from "@/config";
 const CancelToken = axios.CancelToken;
 
 class HttpRequest {
@@ -30,10 +32,18 @@ class HttpRequest {
 	//设定拦截器
 	interceptors(instance) {
 		// Add a request interceptor
-		//这里表示重复请求了
+		//这里表示重复请求了（用户网络差，连续请求，这里需要过滤重复的请求）
 		instance.interceptors.request.use(
 			(config) => {
 				config.cancelToken = new CancelToken((c) => {
+					let isPublic = false;
+					publicConfig.publicPath.map((path) => {
+						isPublic = isPublic || path.test(config.url);
+					});
+					const token = store.state.token;
+					if (!isPublic && token) {
+						config.headers.Authorization = "Bearer " + token;
+					}
 					let key = config.url + "&" + config.method;
 					this.removePending(key, true);
 					this.pending[key] = c;
