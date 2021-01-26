@@ -150,6 +150,14 @@ export default {
 				gender: this.gender,
 			}).then((res) => {
 				if (res.code === 200) {
+					let user = this.$store.state.userInfo;
+					user.username = this.username;
+					user.name = this.name;
+					user.location = this.location;
+					user.regmark = this.regmark;
+					user.gender = this.gender;
+					this.$store.commit("setUserInfo", user);
+
 					this.$alert("更新成功");
 				}
 			});

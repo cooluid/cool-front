@@ -7,6 +7,10 @@ import jwt from "jsonwebtoken";
 
 const Login = () =>
 	import(/* webpackChunkName: 'login' */ "../views/Login.vue");
+const Confirm = () =>
+	import(/* webpackChunkName: 'confirm' */ "../views/Confirm.vue");
+const Reset = () =>
+	import(/* webpackChunkName: 'reset' */ "../views/Reset.vue");
 const Reg = () => import(/* webpackChunkName: 'reg' */ "../views/Reg.vue");
 const Forget = () =>
 	import(/* webpackChunkName: 'forget' */ "../views/Forget.vue");
@@ -53,9 +57,7 @@ const MyCollection = () =>
 		/* webpackChunkName: 'my-collection' */ "../components/user/common/MyCollection.vue"
 	);
 const NoFound = () =>
-	import(
-		/* webpackChunkName: 'no-found' */ "../views/NoFound.vue"
-	);
+	import(/* webpackChunkName: 'no-found' */ "../views/NoFound.vue");
 
 Vue.use(VueRouter);
 
@@ -72,6 +74,16 @@ const routes = [
 		path: "/login",
 		name: "login",
 		component: Login,
+	},
+	{
+		path: "/confirm",
+		name: "confirm",
+		component: Confirm,
+	},
+	{
+		path: "/reset",
+		name: "reset",
+		component: Reset,
 	},
 	{
 		path: "/reg",
